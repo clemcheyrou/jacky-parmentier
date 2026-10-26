@@ -7,6 +7,8 @@ type ArtDiscProps = {
   alt: string;
   /** Solid disc behind the illustration. */
   disc: PaletteColor;
+  /** Disc diameter relative to the ring (0–1). */
+  discSize?: number;
   /** Color of the ring around the disc. */
   ring: PaletteColor;
   /** Illustration width relative to the frame (0–1). */
@@ -19,16 +21,18 @@ type ArtDiscProps = {
 };
 
 /** Floating illustration on a colored disc, inside a ring. */
-export function ArtDisc({ src, alt, disc, ring, scale = 0.9, badge, priority, className = '' }: ArtDiscProps) {
+export function ArtDisc({ src, alt, disc, discSize = 0.88, ring, scale = 0.9, badge, priority, className = '' }: ArtDiscProps) {
   const vars = {
     '--disc': palette[disc],
+    '--disc-size': `${discSize * 100}%`,
     '--ring': palette[ring],
     '--scale': scale,
   } as CSSProperties;
   return (
     <div className={`${s.frame} ${className}`} style={vars}>
-      <span className={s.ring} aria-hidden="true" />
       <span className={s.disc} aria-hidden="true" />
+      {/* After the disc: stays visible when the disc fills it. */}
+      <span className={s.ring} aria-hidden="true" />
       <img className={s.art} src={src} alt={alt} loading={priority ? 'eager' : 'lazy'} />
       {badge && <div className={s.badge}>{badge}</div>}
     </div>

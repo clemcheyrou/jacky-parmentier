@@ -11,7 +11,8 @@ export type Post = {
   slug: string;
   title: string;
   excerpt: string;
-  cover: string | null;
+  /** Carousel under the text. */
+  photos: string[];
   body: string;
   /** ISO date. null = draft; a future date = scheduled. */
   published_at: string | null;

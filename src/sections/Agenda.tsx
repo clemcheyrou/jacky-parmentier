@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import {
   Button,
   EventList,
@@ -9,18 +8,17 @@ import {
   Section,
   SectionHead,
   Stack,
-  StepCard,
-  StepRow,
+  // StepCard,
+  // StepRow,
 } from '../design-system';
-import { agenda, navCta, plans } from '../content';
-import s from './Agenda.module.css';
+import { agenda, navCta /* , plans */ } from '../content';
+// import s from './Agenda.module.css';
 
-/** Upcoming dates (past ones drop off automatically) + projects without a date yet. */
+/** Upcoming dates (past ones drop off automatically). "Projets sans date" is commented out below. */
 export function Agenda() {
-  const upcoming = useMemo(() => {
-    const today = new Date().toISOString().slice(0, 10);
-    return agenda.filter((e) => e.date >= today).sort((a, b) => a.date.localeCompare(b.date));
-  }, []);
+  // Not memoized: `agenda` is mutated in place when saved content arrives (content.ts), so recompute every render.
+  const today = new Date().toISOString().slice(0, 10);
+  const upcoming = agenda.filter((e) => e.date >= today).sort((a, b) => a.date.localeCompare(b.date));
 
   return (
     <Section id="agenda" tone="mint">
@@ -44,6 +42,7 @@ export function Agenda() {
         <Lead>Pas de date publique pour le moment. Écrivez-nous pour réserver la prochaine.</Lead>
       )}
 
+      {/* Projets sans date
       <div className={s.plans}>
         <Stack gap="sm">
           <h3 className={s.plansTitle}>Et dans les cartons</h3>
@@ -55,6 +54,7 @@ export function Agenda() {
           ))}
         </StepRow>
       </div>
+      */}
     </Section>
   );
 }

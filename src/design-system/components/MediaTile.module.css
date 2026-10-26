@@ -150,6 +150,43 @@
   opacity: 0.8;
 }
 
+/* Video player modal */
+.dialog {
+  width: min(1100px, calc(100vw - 32px));
+  padding: 0;
+  overflow: visible;
+  background: var(--jp-ink);
+  border: var(--jp-border) solid var(--jp-ink);
+  border-radius: var(--jp-radius-md);
+  box-shadow: 0 10px 0 var(--jp-ink);
+}
+
+.dialog::backdrop {
+  background: rgba(14, 42, 34, 0.8);
+}
+
+.player {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  max-height: calc(100dvh - 120px);
+  border: 0;
+  border-radius: inherit;
+}
+
+.close {
+  position: absolute;
+  top: -56px;
+  right: 0;
+  width: 44px;
+  height: 44px;
+  border: var(--jp-border) solid var(--jp-paper);
+  border-radius: var(--jp-radius-pill);
+  background: var(--jp-ink);
+  color: var(--jp-paper);
+  cursor: pointer;
+}
+
 @media (max-width: 820px) {
   .grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));

@@ -16,6 +16,8 @@ type EventRowProps = {
   time?: string;
   title: string;
   place: string;
+  /** Google Maps link: the place gets a pin and opens the map. */
+  mapHref?: string;
   kind: string;
   status?: EventStatus;
   /** Ticketing or event page. Shows a labelled button on the row. */
@@ -35,11 +37,15 @@ function parts(iso: string) {
   };
 }
 
-/** One upcoming date: calendar block, title, place, kind and status pills, and a button when there's a link. */
-export function EventRow({ date, time, title, place, kind, status = 'public', href, linkLabel, featured }: EventRowProps) {
+/**
+ * One upcoming date: calendar block, title, place, kind and status pills, and a button when there's a link.
+ * The button's link covers the whole card (::after), so the map link can sit inside without nesting <a>s.
+ */
+export function EventRow({ date, time, title, place, mapHref, kind, status = 'public', href, linkLabel, featured }: EventRowProps) {
   const p = parts(date);
-  const body = (
-    <>
+  const external = (url: string) => url.startsWith('http') && { target: '_blank', rel: 'noreferrer' };
+  return (
+    <li className={`${s.row} ${featured ? s.featured : ''}`}>
       <time className={s.date} dateTime={date}>
         <span className={s.day}>{p.day}</span>
         <span className={s.month}>{p.month}</span>
@@ -51,30 +57,25 @@ export function EventRow({ date, time, title, place, kind, status = 'public', hr
         </span>
         <span className={s.title}>{title}</span>
         <span className={s.place}>
-          {place}
+          {mapHref ? (
+            <a className={s.map} href={mapHref} {...external(mapHref)}>
+              <Icon name="pin" size={16} className={s.pin} />
+              {place}
+            </a>
+          ) : (
+            place
+          )}
           {' · '}
           <span className={s.weekday}>{p.weekday}</span>
           {time && ` · ${time}`}
         </span>
         {href && (
-          <span className={s.cta}>
+          <a className={s.cta} href={href} {...external(href)}>
             {linkLabel || (status === 'soldout' ? 'Infos' : 'Billets & infos')}
             <Icon name="arrow" size={18} strokeWidth={2.4} className={s.arrow} />
-          </span>
+          </a>
         )}
       </span>
-    </>
-  );
-  const cls = `${s.row} ${featured ? s.featured : ''}`;
-  return (
-    <li>
-      {href ? (
-        <a className={cls} href={href} {...(href.startsWith('http') && { target: '_blank', rel: 'noreferrer' })}>
-          {body}
-        </a>
-      ) : (
-        <div className={cls}>{body}</div>
-      )}
     </li>
   );
 }

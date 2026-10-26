@@ -32,6 +32,27 @@ export function Stack({ children, gap = 'md' }: { children: ReactNode; gap?: 'sm
   return <div className={`${s.stack} ${s[`gap-${gap}`]}`}>{children}</div>;
 }
 
+/** Horizontal row, same gaps as Stack. `align` = vertical alignment; `wrap` lets items flow onto new lines. */
+export function HStack({
+  children,
+  gap = 'md',
+  align = 'center',
+  wrap = false,
+  className = '',
+}: {
+  children: ReactNode;
+  gap?: 'sm' | 'md' | 'lg';
+  align?: 'start' | 'center' | 'end';
+  wrap?: boolean;
+  className?: string;
+}) {
+  return (
+    <div className={`${s.hstack} ${s[`gap-${gap}`]} ${wrap ? s.wrap : ''} ${className}`} style={{ alignItems: align === 'center' ? align : `flex-${align}` }}>
+      {children}
+    </div>
+  );
+}
+
 /** Body copy in the tone's muted color. */
 export function Lead({ children, className = '' }: { children: ReactNode; className?: string }) {
   return <p className={`${s.lead} jp-reveal ${className}`}>{children}</p>;

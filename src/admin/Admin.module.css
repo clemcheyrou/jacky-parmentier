@@ -91,6 +91,15 @@
   gap: var(--jp-space-4);
 }
 
+/* Label, input and hint share rows across the line (subgrid): inputs stay aligned at the top even when a label wraps, e.g. Statut / Lien billetterie. */
+.grid > label {
+  grid-row: span 3;
+  display: grid;
+  grid-template-rows: subgrid;
+  row-gap: 6px;
+  align-items: start;
+}
+
 .row {
   display: flex;
   flex-wrap: wrap;
@@ -141,6 +150,18 @@
   aspect-ratio: 1;
   object-fit: cover;
   border-radius: var(--jp-radius-sm);
+}
+
+.thumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.thumbs > span {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
 .image input[type='file'] {

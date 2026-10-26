@@ -45,7 +45,8 @@ export function Contact() {
         <ArtDisc
           src={drums}
           alt="Illustration : une batterie et la bulle « Contact »"
-          disc="ink"
+          disc="paper"
+          discSize={1}
           ring="ink"
           scale={0.92}
           badge={<SpinBadge text="Mariages · Festivals · Défilés · Bals ·" bg="paper" fg="green" />}

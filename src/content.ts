@@ -15,7 +15,7 @@ export const site = {
 
 export const nav: NavItem[] = [
   { href: '/#qui', label: "C'est qui", icon: 'user' },
-  { href: '/#formules', label: 'Formules', icon: 'music' },
+  { href: '/#prestas', label: 'Prestas', icon: 'music' },
   { href: '/#setlist', label: 'Setlist', icon: 'list' },
   { href: '/#agenda', label: 'Agenda', icon: 'calendar' },
   { href: '/#photos', label: 'Photos', icon: 'camera' },

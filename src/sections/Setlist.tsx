@@ -14,7 +14,18 @@ export function Setlist() {
           <Stack>
             <Eyebrow>03 — La setlist</Eyebrow>
             <Heading words={['Au', 'programme']} />
-            <Lead>Des tubes pop et électro réarrangés pour cuivres et percussions, et nos propres morceaux.</Lead>
+          <Button
+            href={media.listenHref || media.allVideosHref}
+            target="_blank"
+            rel="noreferrer"
+            variant="outline"
+            icon="youtube"
+            arrow
+            className={`${s.listen} jp-reveal`}
+          >
+            Nous écouter
+          </Button>
+            <Lead>Des tubes pop et électro réarrangés pour cuivres et percussions.</Lead>
           </Stack>
           <RowList>
             {setlist.map((item, i) => (
@@ -27,17 +38,6 @@ export function Setlist() {
               />
             ))}
           </RowList>
-          <Button
-            href={media.listenHref || media.allVideosHref}
-            target="_blank"
-            rel="noreferrer"
-            variant="outline"
-            icon="youtube"
-            arrow
-            className={`${s.listen} jp-reveal`}
-          >
-            Nous écouter
-          </Button>
         </Stack>
         <ArtDisc src={tuba} alt="Illustration : un tuba et la bulle « La setlist »" disc="paper" ring="mustard" scale={0.8} />
       </Split>

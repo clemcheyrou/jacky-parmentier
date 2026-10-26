@@ -6,7 +6,7 @@ export { Button } from './components/Button';
 export { Eyebrow } from './components/Eyebrow';
 export { Heading } from './components/Heading';
 export { Marquee, repeatWord, type MarqueeItem } from './components/Marquee';
-export { Section, SectionHead, Split, Stack, Lead } from './components/Section';
+export { Section, SectionHead, Split, Stack, HStack, Lead } from './components/Section';
 export { ArtDisc } from './components/ArtDisc';
 export { SpinBadge } from './components/SpinBadge';
 export { StepCard, StepRow, FeatureCard, CardGrid } from './components/Card';

@@ -66,6 +66,12 @@ const paths = {
       <circle cx="12" cy="13" r="3.5" />
     </>
   ),
+  pin: (
+    <>
+      <path d="M12 21s-7-6.2-7-12a7 7 0 0114 0c0 5.8-7 12-7 12z" />
+      <circle cx="12" cy="9" r="2.5" />
+    </>
+  ),
   image: (
     <>
       <rect x="3" y="4" width="18" height="16" rx="3" />

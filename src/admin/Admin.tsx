@@ -70,6 +70,12 @@ const blocks: BlockSpec[] = [
       { name: 'time', label: 'Heure' },
       { name: 'title', label: 'Événement' },
       { name: 'place', label: 'Lieu' },
+      {
+        name: 'mapHref',
+        label: 'Lien Google Maps',
+        type: 'url',
+        hint: 'Le nom du lieu devient cliquable, avec une épingle, et ouvre la carte. Vide = pas de lien.',
+      },
       { name: 'kind', label: 'Type (Défilé, Mariage…)' },
       {
         name: 'status',
@@ -82,21 +88,22 @@ const blocks: BlockSpec[] = [
       },
       {
         name: 'href',
-        label: 'Lien billetterie ou page de l’événement',
+        label: 'Page de l’événement',
         type: 'url',
         hint: 'Ajoute un bouton sur la date. Vide = pas de bouton.',
       },
       { name: 'linkLabel', label: 'Texte du bouton', hint: 'Par défaut : « Billets & infos », ou « Infos » si complet.' },
     ],
   },
-  {
-    key: 'plans',
-    label: 'Projets sans date',
-    fields: [
-      { name: 'index', label: 'Numéro' },
-      { name: 'label', label: 'Projet' },
-    ],
-  },
+  // Hidden on the site for now (see Agenda.tsx).
+  // {
+  //   key: 'plans',
+  //   label: 'Projets sans date',
+  //   fields: [
+  //     { name: 'index', label: 'Numéro' },
+  //     { name: 'label', label: 'Projet' },
+  //   ],
+  // },
   {
     key: 'media',
     label: 'Boutons « Toutes nos vidéos » et « Nous écouter »',
@@ -115,8 +122,9 @@ const blocks: BlockSpec[] = [
       { name: 'title', label: 'Titre' },
       { name: 'meta', label: 'Lieu, date' },
       { name: 'duration', label: 'Durée' },
-      { name: 'href', label: 'Lien de la vidéo', type: 'url' },
-      { name: 'poster', label: 'Image', type: 'image' },
+      { name: 'href', label: 'Lien de la vidéo', type: 'url', hint: 'Lien YouTube : la miniature de la vidéo sert d’image.' },
+      // No upload for now: the YouTube thumbnail is used (see VideoTile).
+      // { name: 'poster', label: 'Image', type: 'image' },
     ],
   },
   {
@@ -358,6 +366,48 @@ function ImageInput({ value, onChange }: { value?: string | null; onChange: (url
   );
 }
 
+function PhotosInput({ value, onChange }: { value: string[]; onChange: (urls: string[]) => void }) {
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState('');
+  return (
+    <span className={s.image}>
+      {value.length > 0 && (
+        <span className={s.thumbs}>
+          {value.map((url, i) => (
+            <span key={url}>
+              <img src={url} alt="" />
+              <button type="button" className={s.small} onClick={() => onChange(value.filter((_, j) => j !== i))}>
+                Retirer
+              </button>
+            </span>
+          ))}
+        </span>
+      )}
+      <input
+        type="file"
+        accept="image/*"
+        multiple
+        disabled={busy}
+        onChange={async (e) => {
+          const files = [...(e.target.files ?? [])];
+          if (!files.length) return;
+          setBusy(true);
+          setError('');
+          try {
+            onChange([...value, ...(await Promise.all(files.map(upload)))]);
+          } catch {
+            setError("L'envoi a échoué (5 Mo max par photo).");
+          }
+          setBusy(false);
+          e.target.value = '';
+        }}
+      />
+      {busy && <small>Envoi…</small>}
+      {error && <small role="alert">{error}</small>}
+    </span>
+  );
+}
+
 function ContentEditor() {
   const [draft, setDraft] = useState<Draft>(() => structuredClone(editable));
   const [status, setStatus] = useState('');
@@ -484,7 +534,7 @@ const slugify = (t: string) =>
     .replace(/^-|-$/g, '');
 
 /** New posts default to today: the date is required, so a post can't be saved as an invisible draft by mistake. */
-const newPost = () => ({ title: '', slug: '', excerpt: '', cover: null, body: '', published_at: new Date().toISOString().slice(0, 10) });
+const newPost = () => ({ title: '', slug: '', excerpt: '', photos: [], body: '', published_at: new Date().toISOString().slice(0, 10) });
 
 function postStatus(p: Post) {
   if (!p.published_at) return 'Brouillon';
@@ -582,7 +632,7 @@ function PostsEditor() {
     setStatus('Enregistrement…');
     const { data, error } = await db
       .from('posts')
-      .upsert({ ...edit, cover: edit!.cover || null, published_at: edit!.published_at || null })
+      .upsert({ ...edit, published_at: edit!.published_at || null })
       .select()
       .single();
     if (error) return setStatus(error.code === '23505' ? 'Ce lien est déjà utilisé par un autre article.' : `Erreur : ${error.message}`);
@@ -615,8 +665,8 @@ function PostsEditor() {
           <Field label="Date de publication" hint="Date future = programmé : l'article apparaîtra ce jour-là.">
             <input type="date" required value={edit.published_at ?? ''} onChange={(e) => set({ published_at: e.target.value })} />
           </Field>
-          <Field label="Image de couverture">
-            <ImageInput value={edit.cover} onChange={(cover) => set({ cover })} />
+          <Field label="Photos (carrousel en haut de l’article, la 1re sert de couverture)" wide>
+            <PhotosInput value={edit.photos ?? []} onChange={(photos) => set({ photos })} />
           </Field>
           <Field label="Résumé (liste des articles)" wide>
             <textarea className={s.short} value={edit.excerpt} onChange={(e) => set({ excerpt: e.target.value })} />

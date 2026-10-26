@@ -44,10 +44,11 @@ if (new URLSearchParams(location.search).has('preview')) {
   // Prerendered at build (prerender.js): hydrate the HTML right away, then pick up anything saved since the build.
   applyContent(data.content);
   load().then(async (Page) => {
-    const page = <StrictMode><Page slug={slug} initialPosts={data.posts} /></StrictMode>;
-    const app = hydrateRoot(root, page);
+    // A fresh element each time: re-rendering the same one is a no-op for React, and the saved content would never show.
+    const page = () => <StrictMode><Page slug={slug} initialPosts={data.posts} /></StrictMode>;
+    const app = hydrateRoot(root, page());
     await loadContent();
-    app.render(page);
+    app.render(page());
   });
 } else {
   // Dev server, /admin, or a post newer than the last build.

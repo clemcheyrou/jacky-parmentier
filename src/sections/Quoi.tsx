@@ -4,10 +4,10 @@ import quoi from '../assets/quoi.webp';
 
 export function Quoi() {
   return (
-    <Section id="formules" tone="pink">
+    <Section id="prestas" tone="pink">
       <Split>
         <Stack>
-          <Eyebrow>02 — Nos formules</Eyebrow>
+          <Eyebrow>02 — Nos prestas</Eyebrow>
           <Heading words={['Un', 'format', 'par', 'occasion']} />
           <Lead>Rue, scène ou fête privée : on adapte le set, la durée et l'énergie au moment.</Lead>
         </Stack>

@@ -68,12 +68,12 @@ export async function renderAll(): Promise<Rendered[]> {
 
   return [
     { ...render('/', <App />), jsonLd: home },
-    { ...render('/blog', <Blog initialPosts={posts} />, posts), title: `Blog — ${site.name}`, lastmod: posts[0]?.published_at },
+    { ...render('/blog', <Blog initialPosts={posts} />, posts), title: `Blog — ${site.name}`, image: posts[0]?.photos?.[0], lastmod: posts[0]?.published_at },
     ...posts.map((p) => ({
       ...render(`/blog/${p.slug}`, <Blog slug={p.slug} initialPosts={[p]} />, [p]),
       title: `${p.title} — ${site.name}`,
       description: p.excerpt || undefined,
-      image: p.cover,
+      image: p.photos?.[0],
       lastmod: p.published_at,
       jsonLd: {
         '@context': 'https://schema.org',
@@ -81,7 +81,7 @@ export async function renderAll(): Promise<Rendered[]> {
         headline: p.title,
         datePublished: p.published_at,
         description: p.excerpt || undefined,
-        image: p.cover ?? undefined,
+        image: p.photos?.[0],
         author: group,
       },
     })),

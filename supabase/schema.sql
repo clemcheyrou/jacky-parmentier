@@ -25,7 +25,11 @@ create table public.posts (
   slug text not null unique check (slug ~ '^[a-z0-9]+(-[a-z0-9]+)*$'),
   title text not null,
   excerpt text not null default '',
-  cover text,
+  -- Carousel at the top of the post; the newest post's first photo is the /blog cover.
+  -- Existing DB: alter table public.posts add column photos text[] not null default '{}';
+  --   update public.posts set photos = array_prepend(cover, photos) where cover is not null;
+  --   alter table public.posts drop column cover;
+  photos text[] not null default '{}',
   body text not null default '',
   published_at date
 );
@@ -35,7 +39,7 @@ create policy "posts: public read" on public.posts for select
 create policy "posts: admin write" on public.posts for all to authenticated
   using (public.is_admin()) with check (public.is_admin());
 
--- Uploaded images (photos, video posters, blog covers). Public read, admin write, 5 MB images only.
+-- Uploaded images (photos, video posters, blog photos). Public read, admin write, 5 MB images only.
 insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
 values ('media', 'media', true, 5242880, array['image/*']);
 create policy "media: admin insert" on storage.objects for insert to authenticated

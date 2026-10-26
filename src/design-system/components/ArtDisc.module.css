@@ -25,8 +25,8 @@
 }
 
 .disc {
-  width: 88%;
-  height: 88%;
+  width: var(--disc-size);
+  height: var(--disc-size);
   background: var(--disc);
 }
 

@@ -84,7 +84,7 @@ tracking −0.04em. Body is regular width. Sizes are tokens (`--jp-display-lg`, 
 
 | Component | What it is |
 |---|---|
-| `Section`, `SectionHead`, `Split`, `Stack`, `Lead` | Layout: colored band with marquee, title + action row, 2-column split, vertical rhythm, muted paragraph |
+| `Section`, `SectionHead`, `Split`, `Stack`, `HStack`, `Lead` | Layout: colored band with marquee, title + action row, 2-column split, vertical rhythm, horizontal row, muted paragraph |
 | `Marquee`, `repeatWord()` | Giant scrolling band, alternating filled / outlined words. Kept for the Hero and Contact only |
 | `Eyebrow` | Small uppercase label with a dot ("01 — C'est qui ?") |
 | `Heading` | Display title; `highlight` puts one word in a pill (Hero, Contact only); `animated` makes words rise one by one and the pill rock (Hero, Contact, Blog only) |

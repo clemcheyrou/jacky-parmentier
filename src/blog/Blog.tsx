@@ -1,5 +1,5 @@
-import { Fragment, useEffect, useState } from 'react';
-import { Button, CardGrid, Eyebrow, FeatureCard, Heading, Lead, Section, Stack } from '../design-system';
+import { Fragment, useEffect, useRef, useState } from 'react';
+import { Eyebrow, FeatureCard, Heading, Icon, Lead, Section, Stack } from '../design-system';
 import { Layout } from '../App';
 import { site } from '../content';
 import { supabase, type Post } from '../lib/supabase';
@@ -42,6 +42,31 @@ export function PostBody({ text }: { text: string }) {
   );
 }
 
+/** Swipeable photo strip (CSS scroll-snap); the arrows scroll by one photo. */
+function Carousel({ photos }: { photos: string[] }) {
+  const track = useRef<HTMLDivElement>(null);
+  const go = (dir: number) => track.current?.scrollBy({ left: dir * track.current.clientWidth, behavior: 'smooth' });
+  return (
+    <div className={s.carousel}>
+      <div ref={track} className={s.track} tabIndex={0} role="region" aria-label="Photos">
+        {photos.map((src) => (
+          <img key={src} src={src} alt="" loading="lazy" />
+        ))}
+      </div>
+      {photos.length > 1 && (
+        <div className={s.arrows}>
+          <button type="button" onClick={() => go(-1)} aria-label="Photo précédente">
+            <Icon name="arrow" style={{ transform: 'scaleX(-1)' }} />
+          </button>
+          <button type="button" onClick={() => go(1)} aria-label="Photo suivante">
+            <Icon name="arrow" />
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
 /**
  * /blog: published posts, newest first. /blog/:slug: one post (drafts visible to a logged-in admin, as a preview).
  * `initialPosts` comes from the build (prerendered page); the fetch then refreshes it.
@@ -76,16 +101,16 @@ export default function Blog({ slug, initialPosts, preview }: { slug?: string; i
           </Stack>
           {posts?.length === 0 && <Lead>Pas encore d'article. Revenez bientôt !</Lead>}
           {posts && posts.length > 0 && (
-            <CardGrid>
+            <div className={`${s.list} jp-reveal`}>
               {posts.map((p) => (
                 <a key={p.id} href={`/blog/${p.slug}`} className={s.cardLink}>
-                  {p.cover && <img className={s.cardCover} src={p.cover} alt="" loading="lazy" />}
+                  {p.photos?.[0] && <img className={s.thumb} src={p.photos[0]} alt="" loading="lazy" />}
                   <FeatureCard tag={formatDate(p.published_at!)} title={p.title}>
                     {p.excerpt}
                   </FeatureCard>
                 </a>
               ))}
-            </CardGrid>
+            </div>
           )}
         </Section>
       </Layout>
@@ -94,18 +119,18 @@ export default function Blog({ slug, initialPosts, preview }: { slug?: string; i
 
   return (
     <Layout>
-      <Section tone="paper">
-        <Button href="/blog" variant="outline" className={s.back}>
-          ← Tous les articles
-        </Button>
-        {posts && !post && <Lead>Cet article n'existe pas (ou plus).</Lead>}
+      <Section tone="paper" className={s.postSection}>
+        {posts && !post && (
+          <Lead>Cet article n'existe pas (ou plus).</Lead>
+        )}
         {post && (
           <article className={s.post}>
-            <Stack>
-              <Eyebrow>{post.published_at ? formatDate(post.published_at) : 'Brouillon'}</Eyebrow>
-              <Heading as="h1" size="md" words={post.title.split(' ')} />
+            <Stack gap="sm">
+              <div className={s.titleRow}>
+                <Heading as="h1" size="md" words={post.title.split(' ')} />
+              </div>
             </Stack>
-            {post.cover && <img className={s.cover} src={post.cover} alt="" />}
+            {post.photos?.length > 0 && <Carousel photos={post.photos} />}
             <PostBody text={post.body} />
           </article>
         )}

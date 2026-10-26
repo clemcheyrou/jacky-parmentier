@@ -1,28 +1,76 @@
-.cardLink {
+.list {
   display: flex;
   flex-direction: column;
-  gap: var(--jp-space-3);
-  text-decoration: none;
+  gap: var(--jp-space-4);
 }
 
-.cardCover,
-.cover {
-  width: 100%;
-  object-fit: cover;
+/* Photo left, summary right, in one bordered box; stacked on phones. */
+.cardLink {
+  display: flex;
+  overflow: hidden;
+  text-decoration: none;
+  background: var(--tone-surface);
   border: var(--jp-border) solid var(--jp-ink);
   border-radius: var(--jp-radius-md);
+  transition:
+    transform 0.25s var(--jp-ease-spring),
+    box-shadow 0.25s;
 }
 
-.cardCover {
-  aspect-ratio: 4 / 3;
+.cardLink:hover {
+  transform: translateY(-4px) rotate(-0.5deg);
+  box-shadow: 0 6px 0 var(--jp-ink);
 }
 
-.cover {
-  max-height: 560px;
+/* The FeatureCard: the link carries the border and the hover now. */
+.cardLink > :last-child,
+.cardLink:hover > :last-child {
+  flex: 1;
+  border: none;
+  border-radius: 0;
+  transform: none;
+  box-shadow: none;
+}
+
+.thumb {
+  flex: 0 0 38%;
+  height: 300px;
+  object-fit: cover;
+  border-right: var(--jp-border) solid var(--jp-ink);
+}
+
+@media (max-width: 640px) {
+  .cardLink {
+    flex-direction: column;
+  }
+
+  .thumb {
+    flex: none;
+    border-right: none;
+    border-bottom: var(--jp-border) solid var(--jp-ink);
+  }
+}
+
+/* Less room above the back button than a regular section. */
+.postSection > div {
+  padding-top: var(--jp-space-6);
 }
 
 .back {
   align-self: flex-start;
+  flex: none;
+}
+
+/* Back button on the title's line. */
+.titleRow {
+  display: flex;
+  align-items: center;
+  gap: var(--jp-space-4);
+}
+
+.titleRow > :last-child {
+  flex: 1;
+  min-width: 0;
 }
 
 .post {
@@ -48,4 +96,45 @@
 .body p,
 .body ul {
   margin: 0 0 1em;
+}
+
+.carousel {
+  max-width: 68ch;
+  display: flex;
+  flex-direction: column;
+  gap: var(--jp-space-3);
+}
+
+.track {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  border: var(--jp-border) solid var(--jp-ink);
+  border-radius: var(--jp-radius-md);
+}
+
+.track img {
+  flex: 0 0 100%;
+  height: 400px;
+  object-fit: cover;
+  scroll-snap-align: start;
+}
+
+.arrows {
+  display: flex;
+  gap: var(--jp-space-3);
+  justify-content: flex-end;
+}
+
+.arrows button {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  color: inherit;
+  background: transparent;
+  border: var(--jp-border) solid var(--jp-ink);
+  border-radius: var(--jp-radius-pill);
+  cursor: pointer;
 }
