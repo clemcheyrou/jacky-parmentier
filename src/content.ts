@@ -51,6 +51,9 @@ export const socials: Social[] = [
   { network: 'facebook', href: '#', label: 'Facebook' },
 ];
 
+/** Instruments we're looking for (Contact section). Empty = the recruiting card is hidden. */
+export const recruiting = ['Trombone', 'Souba', 'Tuba'];
+
 export const occasions = ['Mariages', 'Festivals', 'Défilés', 'Apéros', 'Bals', 'Fêtes'];
 
 export const formats: { tag: string; color: PaletteColor; title: string; text: string }[] = [
@@ -81,16 +84,16 @@ export const media: {
   ],
   /** Set `src` (an imported image, or upload one in /admin) to replace each placeholder. */
   photos: [
-    { alt: 'PHOTO : la fanfare en défilé', color: 'pink', span: '1x1' },
-    { alt: 'PHOTO portrait : un musicien', color: 'mint', span: '1x2' },
-    { alt: 'PHOTO : le public qui danse', color: 'mustard', span: '1x1' },
-    { alt: 'PHOTO : les cuivres de près', color: 'mint', span: '1x1' },
-    { alt: 'PHOTO de groupe : toute la fanfare', color: 'pink', span: '1x1' },
+    { alt: 'PHOTO : la fanfare en défilé', color: 'pink' },
+    { alt: 'PHOTO portrait : un musicien', color: 'mint' },
+    { alt: 'PHOTO : le public qui danse', color: 'mustard' },
+    { alt: 'PHOTO : les cuivres de près', color: 'mint' },
+    { alt: 'PHOTO de groupe : toute la fanfare', color: 'pink' },
   ],
 };
 
 /** What /admin can edit, by Supabase `content.key`. */
-export const editable = { site, agenda, plans, setlist, formats, occasions, socials, media };
+export const editable = { site, agenda, plans, setlist, formats, occasions, recruiting, socials, media };
 export type EditableKey = keyof typeof editable;
 
 export type ContentRow = { key: string; value: unknown };

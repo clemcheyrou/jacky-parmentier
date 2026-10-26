@@ -18,12 +18,12 @@ export function Photos() {
       {/* Order matters: it fills the 4-column bento without gaps. */}
       <MediaGrid>
         <VideoTile {...v1} span="2x2" />
-        <PhotoTile {...p1} />
-        <PhotoTile {...p2} />
-        <PhotoTile {...p3} />
-        <PhotoTile {...p4} />
+        <PhotoTile {...p1} span="1x1" />
+        <PhotoTile {...p2} span="1x2" />
+        <PhotoTile {...p3} span="1x1" />
+        <PhotoTile {...p4} span="1x1" />
         <VideoTile {...v2} span="2x1" layout="inline" color="green" />
-        <PhotoTile {...p5} />
+        <PhotoTile {...p5} span="1x1" />
       </MediaGrid>
     </Section>
   );

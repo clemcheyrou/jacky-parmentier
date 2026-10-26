@@ -2,6 +2,7 @@ import {
   ArtDisc,
   Button,
   Eyebrow,
+  FeatureCard,
   Heading,
   Lead,
   Section,
@@ -11,7 +12,7 @@ import {
   Stack,
   repeatWord,
 } from '../design-system';
-import { site, socials } from '../content';
+import { recruiting, site, socials } from '../content';
 import { useCopy } from '../hooks/useCopy';
 import { ContactDialog } from './ContactDialog';
 import drums from '../assets/contact.webp';
@@ -20,6 +21,8 @@ import s from './Contact.module.css';
 export function Contact() {
   const { copy, copied } = useCopy(site.email);
   const [user, domain] = site.email.split('@');
+  // The admin textarea leaves '' for blank lines.
+  const wanted = recruiting.filter((r) => r.trim());
   return (
     <Section id="contact" tone="mustard" marquee={repeatWord('Pouet', 6)}>
       <Split>
@@ -41,6 +44,14 @@ export function Contact() {
             </Button>
           </div>
           <SocialLinks links={socials} />
+          {wanted.length > 0 && (
+            <div className="jp-reveal">
+              <FeatureCard tag="On recrute" tagColor="pink" title={wanted.join(', ')}>
+                Vous jouez d'un de ces instruments et vous avez envie de pouet avec nous ?{' '}
+                <a href={`mailto:${site.email}?subject=${encodeURIComponent('Recrutement')}`}>Écrivez-nous</a>, on vous attend !
+              </FeatureCard>
+            </div>
+          )}
         </Stack>
         <ArtDisc
           src={drums}

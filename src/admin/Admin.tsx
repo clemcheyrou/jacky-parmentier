@@ -28,6 +28,8 @@ type BlockSpec = {
   lines?: boolean;
   /** List with a fixed number of items (the layout depends on it). */
   fixed?: boolean;
+  /** Keep the ↑/↓ buttons on a fixed list. */
+  sortable?: boolean;
 };
 
 /** What the content tab shows, in page order. Add a block here to make a new key editable. */
@@ -118,6 +120,7 @@ const blocks: BlockSpec[] = [
     sub: 'videos',
     label: 'Vidéos à la une',
     fixed: true,
+    sortable: true,
     fields: [
       { name: 'title', label: 'Titre' },
       { name: 'meta', label: 'Lieu, date' },
@@ -132,6 +135,7 @@ const blocks: BlockSpec[] = [
     sub: 'photos',
     label: 'Photos',
     fixed: true,
+    sortable: true,
     fields: [
       { name: 'src', label: 'Photo', type: 'image' },
       { name: 'alt', label: 'Description (accessibilité)' },
@@ -145,6 +149,12 @@ const blocks: BlockSpec[] = [
       { name: 'label', label: 'Nom' },
       { name: 'href', label: 'Lien', type: 'url' },
     ],
+  },
+  {
+    key: 'recruiting',
+    label: 'On recrute (section Contact)',
+    hint: 'Un instrument par ligne. Vide = l’encart disparaît.',
+    lines: true,
   },
 ];
 
@@ -478,7 +488,7 @@ function ContentEditor() {
                           </Field>
                         ))}
                       </div>
-                      {!b.fixed && (
+                      {(!b.fixed || b.sortable) && (
                         <div className={s.rowActions}>
                           <button type="button" className={s.small} disabled={i === 0} onClick={() => move(i - 1)} aria-label="Monter">
                             ↑
@@ -486,9 +496,11 @@ function ContentEditor() {
                           <button type="button" className={s.small} disabled={i === all.length - 1} onClick={() => move(i + 1)} aria-label="Descendre">
                             ↓
                           </button>
-                          <button type="button" className={s.small} onClick={() => update((d) => void list(d).splice(i, 1))}>
-                            Supprimer
-                          </button>
+                          {!b.fixed && (
+                            <button type="button" className={s.small} onClick={() => update((d) => void list(d).splice(i, 1))}>
+                              Supprimer
+                            </button>
+                          )}
                         </div>
                       )}
                     </div>
