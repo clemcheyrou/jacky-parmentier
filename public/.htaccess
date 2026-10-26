@@ -1,0 +1,2 @@
+# Apache: pages without a prerendered file (/admin, posts newer than the last build) get index.html, which routes them in JS.
+FallbackResource /index.html

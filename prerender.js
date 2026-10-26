@@ -48,6 +48,11 @@ for (const page of await renderAll()) {
   urls.push({ loc: url, lastmod: page.lastmod });
 }
 
+// /admin: the bare shell (no prerendered page, main.tsx loads the admin), so it works without a host fallback rule.
+await mkdir('dist/admin', { recursive: true });
+await writeFile('dist/admin/index.html', template.replace('</head>', () => '    <meta name="robots" content="noindex" />\n  </head>'));
+console.log('shell /admin');
+
 await writeFile('dist/robots.txt', ['User-agent: *', 'Disallow: /admin', siteUrl && `Sitemap: ${siteUrl}/sitemap.xml`, ''].filter((l) => l !== undefined && l !== false).join('\n'));
 if (siteUrl) {
   const entries = urls.map((u) => `  <url><loc>${u.loc}</loc>${u.lastmod ? `<lastmod>${u.lastmod}</lastmod>` : ''}</url>`);
