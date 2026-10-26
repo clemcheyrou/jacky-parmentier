@@ -1,0 +1,75 @@
+@import '../motion.css';
+
+.heading {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 0.22em;
+  line-height: 0.9;
+  font-weight: var(--jp-weight-display);
+  font-stretch: var(--jp-stretch-display);
+  letter-spacing: var(--jp-tracking-display);
+  text-transform: uppercase;
+}
+
+.hero {
+  /* Overridden by the Hero section, which sizes it to its column. */
+  font-size: clamp(40px, 6.4vw, 104px);
+}
+
+.xl {
+  font-size: clamp(48px, 6.4vw, 96px);
+}
+
+/* min(…, 11cqi): the longest word (~8.7em, "PROGRAMME") still fits a Split column. */
+.lg {
+  font-size: min(var(--jp-display-lg), 11cqi);
+}
+
+.md {
+  font-size: min(clamp(40px, 5vw, 72px), 11cqi);
+  line-height: 0.92;
+}
+
+.word {
+  display: inline-block;
+  /* Last resort for long words in blog titles; the sizes below keep the site's own titles whole. */
+  overflow-wrap: anywhere;
+}
+
+.animated .word {
+  animation: jp-rise 0.7s calc(var(--i) * 0.08s) var(--jp-ease-spring) both;
+}
+
+.hl {
+  color: var(--tone-hl-fg);
+  background: var(--tone-hl-bg);
+  padding: 0 0.12em;
+  border-radius: 0.12em;
+  white-space: nowrap;
+}
+
+.animated .hl {
+  animation:
+    jp-rise 0.7s calc(var(--i) * 0.08s) var(--jp-ease-spring) both,
+    jp-wobble 2.6s 1s ease-in-out infinite;
+}
+
+@supports (animation-timeline: view()) {
+  .animated .word {
+    animation-timeline: view();
+    animation-range: entry 10% cover 35%;
+  }
+  .animated .hl {
+    animation-timeline: view(), auto;
+    animation-range: entry 10% cover 35%, normal;
+  }
+}
+
+/* Phones: scale with the screen so the longest word (~8.7em, e.g. "PROGRAMME") fits down to ~310px. */
+@media (max-width: 820px) {
+  .lg,
+  .md {
+    font-size: min(44px, 10vw);
+  }
+}

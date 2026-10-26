@@ -1,0 +1,39 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.wide {
+  grid-column: 1 / -1;
+}
+
+.label {
+  font-size: var(--jp-text-xs);
+  font-weight: 700;
+  letter-spacing: var(--jp-tracking-eyebrow);
+  text-transform: uppercase;
+}
+
+.field :is(input, textarea, select) {
+  width: 100%;
+  min-height: 48px;
+  padding: 10px 14px;
+  font: inherit;
+  font-size: 16px;
+  color: var(--jp-ink);
+  background: #fff;
+  border: var(--jp-border) solid var(--jp-ink);
+  border-radius: var(--jp-radius-sm);
+}
+
+.field textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+.hint {
+  font-size: 13px;
+  color: var(--tone-muted, #4a5f57);
+}

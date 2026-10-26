@@ -1,0 +1,96 @@
+/* Desktop: the whole landing (nav + content + band) fits exactly one screen. */
+.hero {
+  min-height: calc(100vh - var(--jp-nav-h));
+  min-height: calc(100svh - var(--jp-nav-h));
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.inner {
+  flex: 1 1 auto;
+  width: 100%;
+  max-width: var(--jp-max);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+  gap: clamp(24px, 4vw, 64px);
+  align-items: center;
+  padding: clamp(24px, 6vh, 80px) var(--jp-gutter);
+}
+
+.text {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(16px, 3.4vh, 32px);
+  min-width: 0;
+  container-type: inline-size;
+}
+
+/* Sized by viewport AND by its own column, so it never runs under the crest. */
+.title {
+  font-size: clamp(36px, min(6.4vw, 11.4cqi, 13vh), 104px);
+}
+
+.lead {
+  margin: 0;
+  max-width: 34ch;
+  font-size: clamp(16px, 2.6vh, 22px);
+  line-height: 1.45;
+  color: #d5e1db;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.btn {
+  min-height: clamp(48px, 7vh, 60px);
+}
+
+.hit {
+  transform: scale(1.08) rotate(-3deg) !important;
+}
+
+.art {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 56vh, 500px);
+}
+
+.band {
+  padding-block: clamp(10px, 1.8vh, 18px);
+}
+
+/* Phone: stacked, natural height. */
+@media (max-width: 820px) {
+  .hero {
+    min-height: 100vh;
+    min-height: 100svh;
+  }
+  .inner {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 72px var(--jp-gutter) 56px;
+    gap: 32px;
+  }
+  .text {
+    gap: 32px;
+  }
+  .title {
+    font-size: clamp(28px, 11.4cqi, 56px);
+  }
+  .lead {
+    font-size: 19px;
+  }
+  .btn {
+    min-height: 56px;
+  }
+  .art {
+    width: min(100%, 360px);
+    padding: 24px 0;
+  }
+}

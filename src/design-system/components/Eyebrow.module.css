@@ -1,0 +1,19 @@
+@import '../motion.css';
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: var(--jp-space-3);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: var(--jp-tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--tone-accent);
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: currentColor;
+}

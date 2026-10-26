@@ -1,0 +1,82 @@
+@import './tokens.css';
+@import './motion.css';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--jp-nav-h);
+}
+
+body {
+  margin: 0;
+  font-family: var(--jp-font);
+  font-size: var(--jp-text-md);
+  line-height: 1.55;
+  color: var(--jp-ink);
+  background: var(--jp-paper);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: inherit;
+}
+
+button {
+  font: inherit;
+}
+
+:focus-visible {
+  outline: 3px solid var(--jp-mustard);
+  outline-offset: 3px;
+}
+
+.jp-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* --------------------------------------------------------------------------
+   Motion primitives (shared by components)
+   -------------------------------------------------------------------------- */
+
+/* Fade-up on scroll. Falls back to a load animation where scroll timelines are unsupported. */
+.jp-reveal {
+  animation: jp-fade 0.8s 0.3s var(--jp-ease-out) both;
+}
+
+@supports (animation-timeline: view()) {
+  .jp-reveal {
+    animation-timeline: view();
+    animation-range: entry 10% cover 35%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}

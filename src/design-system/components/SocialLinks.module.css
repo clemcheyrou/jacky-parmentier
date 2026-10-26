@@ -1,0 +1,28 @@
+.list {
+  display: flex;
+  gap: 10px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.link {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: var(--jp-border) solid currentColor;
+  display: grid;
+  place-items: center;
+  color: var(--tone-fg);
+  transition:
+    background var(--jp-dur-fast),
+    color var(--jp-dur-fast),
+    transform var(--jp-dur-fast);
+}
+
+.link:hover {
+  background: var(--tone-solid-bg);
+  border-color: var(--tone-solid-bg);
+  color: var(--jp-mustard);
+  transform: translateY(-3px);
+}

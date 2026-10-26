@@ -1,0 +1,14 @@
+@import '../motion.css';
+
+.badge {
+  display: block;
+  width: 100%;
+  height: auto;
+  animation: jp-spin 14s linear infinite;
+}
+
+.text {
+  font: 800 19px var(--jp-font);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}

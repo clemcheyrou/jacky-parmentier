@@ -1,0 +1,8 @@
+/* Shared keyframes. @import this at the top of any .module.css that animates:
+   CSS Modules scopes animation names per file, so each module needs its own copy. */
+@keyframes jp-marquee { to { transform: translateX(-50%); } }
+@keyframes jp-rise { from { opacity: 0; transform: translateY(0.5em) rotate(4deg); } to { opacity: 1; transform: none; } }
+@keyframes jp-fade { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+@keyframes jp-wobble { 0%, 100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
+@keyframes jp-bob { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-12px) rotate(2deg); } }
+@keyframes jp-spin { to { transform: rotate(360deg); } }

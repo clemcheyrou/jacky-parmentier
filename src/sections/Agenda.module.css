@@ -1,0 +1,22 @@
+.plans {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+  gap: var(--jp-space-6);
+  align-items: center;
+  padding-top: var(--jp-space-7);
+  border-top: var(--jp-border) solid var(--tone-line);
+}
+
+.plansTitle {
+  margin: 0;
+  font-size: var(--jp-title-md);
+  line-height: 1;
+  font-weight: var(--jp-weight-display);
+  font-stretch: var(--jp-stretch-display);
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+}
+
+.plans > div:last-child {
+  max-width: none;
+}
