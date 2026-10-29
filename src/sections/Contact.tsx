@@ -14,7 +14,7 @@ import {
 } from '../design-system';
 import { recruiting, site, socials } from '../content';
 import { useCopy } from '../hooks/useCopy';
-import { ContactDialog } from './ContactDialog';
+// import { ContactDialog } from './ContactDialog';
 import drums from '../assets/contact.webp';
 import s from './Contact.module.css';
 
@@ -31,7 +31,10 @@ export function Contact() {
           <Heading size="xl" animated words={['Envie', "d'un", 'pouet', 'chez', 'vous ?']} highlight={2} />
           <Lead>La date, le lieu, le nombre d'invités : écrivez-nous, on revient vite avec une proposition.</Lead>
           <div className={`${s.actions} jp-reveal`}>
-            <ContactDialog />
+            {/* <ContactDialog /> */}
+            <Button href={`mailto:${site.email}?subject=${encodeURIComponent('Réservation')}`} size="lg" icon="mail" arrow>
+              Nous écrire
+            </Button>
             <Button variant="outline" size="lg" icon="copy" onClick={copy} aria-live="polite" className={s.mail}>
               {copied ? (
                 'Copié !'
